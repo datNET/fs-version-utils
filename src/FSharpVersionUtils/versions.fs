@@ -1,4 +1,4 @@
-module FsVersion.Utils
+module Versions
 
 open System
 
