@@ -1,77 +1,79 @@
-module Versions
+namespace FSharpVersionUtils
 
-open System
+module Versions =
 
-let private _Coerce n = Math.Max(0, n)
-let private _Incr n = n + 1
-let private _Decr n = n - 1
+    open System
 
-type VersionType =
-  | Major
-  | Minor
-  | Patch
+    let private _Coerce n = Math.Max(0, n)
+    let private _Incr n = n + 1
+    let private _Decr n = n - 1
 
-// Borrowed from http://stackoverflow.com/a/2226375
-let (|InvariantEqual|_|) (str: string) arg =
-  if String.Compare(str, arg, StringComparison.OrdinalIgnoreCase) = 0 then
-    Some()
-  else
-    None
+    type VersionType =
+      | Major
+      | Minor
+      | Patch
 
-let versionTypeFromString versionTypeStr =
-  match versionTypeStr with
-  | InvariantEqual "major" -> Major
-  | InvariantEqual "minor" -> Minor
-  | _ -> Patch
+    // Borrowed from http://stackoverflow.com/a/2226375
+    let (|InvariantEqual|_|) (str: string) arg =
+      if String.Compare(str, arg, StringComparison.OrdinalIgnoreCase) = 0 then
+        Some()
+      else
+        None
 
-let CoerceVersionToFourVersion (version: Version) =
-  new Version(
-    _Coerce version.Major,
-    _Coerce version.Minor,
-    _Coerce version.Build,
-    _Coerce version.Revision)
+    let versionTypeFromString versionTypeStr =
+      match versionTypeStr with
+      | InvariantEqual "major" -> Major
+      | InvariantEqual "minor" -> Minor
+      | _ -> Patch
 
-let CoerceStringToFourVersion version =
-  CoerceVersionToFourVersion (Version.Parse(version))
+    let CoerceVersionToFourVersion (version: Version) =
+      new Version(
+        _Coerce version.Major,
+        _Coerce version.Minor,
+        _Coerce version.Build,
+        _Coerce version.Revision)
 
-let CoerceVersionToSemVer (version: Version) =
-  new Version(
-    _Coerce version.Major,
-    _Coerce version.Minor,
-    _Coerce version.Build)
+    let CoerceStringToFourVersion version =
+      CoerceVersionToFourVersion (Version.Parse(version))
 
-let CoerceStringToSemVer version =
-  CoerceVersionToSemVer (Version.Parse(version))
+    let CoerceVersionToSemVer (version: Version) =
+      new Version(
+        _Coerce version.Major,
+        _Coerce version.Minor,
+        _Coerce version.Build)
 
-let BuildSemVer major minor patch =
-  new System.Version(
-    _Coerce major,
-    _Coerce minor,
-    _Coerce patch)
+    let CoerceStringToSemVer version =
+      CoerceVersionToSemVer (Version.Parse(version))
 
-let ApplyMajor fn versionString =
-  let current = Version.Parse(versionString)
-  let newMajor = fn (_Coerce current.Major)
+    let BuildSemVer major minor patch =
+      new System.Version(
+        _Coerce major,
+        _Coerce minor,
+        _Coerce patch)
 
-  (BuildSemVer newMajor 0 0).ToString()
+    let ApplyMajor fn versionString =
+      let current = Version.Parse(versionString)
+      let newMajor = fn (_Coerce current.Major)
 
-let ApplyMinor fn versionString =
-  let current = Version.Parse(versionString)
-  let newMinor = fn (_Coerce current.Minor)
+      (BuildSemVer newMajor 0 0).ToString()
 
-  (BuildSemVer current.Major newMinor 0).ToString()
+    let ApplyMinor fn versionString =
+      let current = Version.Parse(versionString)
+      let newMinor = fn (_Coerce current.Minor)
 
-let ApplyPatch fn versionString =
-  let current = Version.Parse(versionString)
-  let newPatch = fn (_Coerce current.Build)
+      (BuildSemVer current.Major newMinor 0).ToString()
 
-  (BuildSemVer current.Major current.Minor newPatch).ToString()
+    let ApplyPatch fn versionString =
+      let current = Version.Parse(versionString)
+      let newPatch = fn (_Coerce current.Build)
+
+      (BuildSemVer current.Major current.Minor newPatch).ToString()
 
 
-let IncrMajor = ApplyMajor _Incr
-let IncrMinor = ApplyMinor _Incr
-let IncrPatch = ApplyPatch _Incr
+    let IncrMajor = ApplyMajor _Incr
+    let IncrMinor = ApplyMinor _Incr
+    let IncrPatch = ApplyPatch _Incr
 
-let DecrMajor = ApplyMajor _Decr
-let DecrMinor = ApplyMinor _Decr
-let DecrPatch = ApplyPatch _Decr
+    let DecrMajor = ApplyMajor _Decr
+    let DecrMinor = ApplyMinor _Decr
+    let DecrPatch = ApplyPatch _Decr
