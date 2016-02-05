@@ -93,6 +93,13 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\FSharpVersionUtils\FSharpVersionUtils.fsproj">
+      <Name>FSharpVersionUtils</Name>
+      <Project>{4557761a-eb72-45e4-9ac5-9b5719fc262e}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

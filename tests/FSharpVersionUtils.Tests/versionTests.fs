@@ -2,7 +2,10 @@
 
 open NUnit.Framework
 open FsUnit
+open FSharpVersionUtils.Versions
+
+let private _version = new System.Version(1, 1, 1)
 
 [<Test>]
-let ``Assert that true is equal to True`` () =
-    true |> should be True
+let ``Should build correct semantic version using 1.1.1`` () =
+    BuildSemVer 1 1 1 |> should equal _version
