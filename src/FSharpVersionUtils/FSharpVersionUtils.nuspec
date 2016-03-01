@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Andrew Seward, Mathew Glodack</authors>
+    <owners>Andrew Seward, Mathew Glodack</owners>
+    <licenseUrl>https://raw.githubusercontent.com/datNET/fs-version-utils/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/datNET/fs-version-utils</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <copyright>Copyright 2016</copyright>
+  </metadata>
+</package>
