@@ -10,12 +10,9 @@ open System.Runtime.InteropServices
 // associated with an assembly.
 [<assembly: AssemblyTitle("FSharpVersionUtils")>]
 [<assembly: AssemblyDescription("Semantic versioning utilities")>]
-[<assembly: AssemblyConfiguration("")>]
-[<assembly: AssemblyCompany("")>]
+[<assembly: AssemblyCompany("datNET")>]
 [<assembly: AssemblyProduct("FSharpVersionUtils")>]
 [<assembly: AssemblyCopyright("Copyright ©  2016")>]
-[<assembly: AssemblyTrademark("")>]
-[<assembly: AssemblyCulture("")>]
 [<assembly: NeutralResourcesLanguage("en")>]
 
 // Version information for an assembly consists of the following four values:
