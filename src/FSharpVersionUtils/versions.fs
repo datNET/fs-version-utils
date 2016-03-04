@@ -1,4 +1,4 @@
-namespace FSharpVersionUtils
+namespace FSharpUtils
 
 module Versions =
 
