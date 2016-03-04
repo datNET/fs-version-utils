@@ -2,7 +2,7 @@
 
 open NUnit.Framework
 open FsUnit
-open FSharpUtils.Versions
+open FSharpUtil.Version
 
 let private _version = new System.Version(1, 1, 1)
 

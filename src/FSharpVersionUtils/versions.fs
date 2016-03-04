@@ -1,6 +1,6 @@
-namespace FSharpUtils
+namespace FSharpUtil
 
-module Versions =
+module Version =
 
     open System
 
