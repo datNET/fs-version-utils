@@ -2,7 +2,7 @@
 
 open NUnit.Framework
 open FsUnit
-open FSharpUtil.Version
+open datNET.Version
 
 let private _version = new System.Version(1, 1, 1)
 
