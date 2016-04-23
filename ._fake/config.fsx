@@ -28,7 +28,7 @@ module Release =
   let Items = !! "**/bin/Release/FSharpVersionUtils.dll"
   let Nuspec = "FSharpVersionUtils.nuspec"
 
-  let Version = "0.1.0-alpha"
+  let Version = "0.1.0"
   let Project = "FSharp.Version.Utils"
   let Authors = [ "Andrew Seward"; "Mathew Glodack" ]
   let Description = "Semantic versioning utilities"
