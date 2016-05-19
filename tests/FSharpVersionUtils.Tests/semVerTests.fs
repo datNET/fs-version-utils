@@ -193,6 +193,7 @@ module SemVerTests =
       // ""
       // "."
       // "garbage"
+      // "1.2.3+meta-pre"
       "..."
       "1.2.3-pre1-pre2"
       "1.2.3+meta1+meta2"
