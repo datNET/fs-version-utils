@@ -4,41 +4,192 @@ module SemVerTests =
 
   open FsUnit
   open datNET
+  open datNET.SemVer
   open NUnit.Framework
+
+  let private _emptySemVer =
+    {
+      Major = 0
+      Minor = 0
+      Patch = 0
+      Pre   = None
+      Meta  = None
+    }
+
+  let private _ParseSuccess input semver = parse input |> should equal semver
 
   [<Test>]
   let ``Parse 1`` () =
-    let (expected: SemVer.SemVer) =
-      {
-        Major = 1
-        Minor = 0
-        Patch = 0
-        Pre   = None
-        Meta  = None
+    _ParseSuccess "1" { _emptySemVer with Major = 1 }
+  [<Test>]
+  let ``Parse 1-pre`` () =
+    _ParseSuccess "1-pre"
+      { _emptySemVer with
+          Major = 1
+          Pre   = Some "pre"
       }
-    SemVer.parse "1" |> should equal expected
+  [<Test>]
+  let ``Parse 1+meta`` () =
+    _ParseSuccess "1+meta"
+      {
+        _emptySemVer with
+          Major = 1
+          Meta  = Some "meta"
+      }
+  [<Test>]
+  let ``Parse 1-pre+meta`` () =
+    _ParseSuccess "1-pre+meta"
+      { _emptySemVer with
+          Major = 1
+          Pre   = Some "pre"
+          Meta  = Some "meta"
+      }
 
   [<Test>]
   let ``parse 1.`` () =
-    let (expected: SemVer.SemVer) =
-      {
-        Major = 1
-        Minor = 0
-        Patch = 0
-        Pre   = None
-        Meta  = None
+    _ParseSuccess "1." { _emptySemVer with Major = 1 }
+  [<Test>]
+  let ``Parse 1.-pre`` () =
+    _ParseSuccess "1.-pre"
+      { _emptySemVer with
+          Major = 1
+          Pre   = Some "pre"
       }
-    SemVer.parse "1." |> should equal expected
+  [<Test>]
+  let ``Parse 1.+meta`` () =
+    _ParseSuccess "1.+meta"
+      {
+        _emptySemVer with
+          Major = 1
+          Meta  = Some "meta"
+      }
+  [<Test>]
+  let ``Parse 1.-pre+meta`` () =
+    _ParseSuccess "1.-pre+meta"
+      { _emptySemVer with
+          Major = 1
+          Pre   = Some "pre"
+          Meta  = Some "meta"
+      }
+
 
   [<Test>]
-  let ``Parse 1.1`` () =
-    let (expected: SemVer.SemVer) =
-      {
-        Major = 1
-        Minor = 1
-        Patch = 0
-        Pre   = None
-        Meta  = None
+  let ``Parse 1.2`` () =
+    _ParseSuccess "1.2"
+      { _emptySemVer with
+          Major = 1
+          Minor = 2
+      }
+  [<Test>]
+  let ``Parse 1.2-pre`` () =
+    _ParseSuccess "1.2-pre"
+      { _emptySemVer with
+          Major = 1
+          Minor = 2
+          Pre   = Some "pre"
+      }
+  [<Test>]
+  let ``Parse 1.2+meta`` () =
+    _ParseSuccess "1.2+meta"
+      { _emptySemVer with
+          Major = 1
+          Minor = 2
+          Meta  = Some "meta"
+      }
+  [<Test>]
+  let ``Parse 1.2-pre+meta`` () =
+    _ParseSuccess "1.2-pre+meta"
+      { _emptySemVer with
+          Major = 1
+          Minor = 2
+          Pre   = Some "pre"
+          Meta  = Some "meta"
       }
 
-    SemVer.parse "1.1" |> should equal expected
+
+  [<Test>]
+  let ``Parse 1.2.`` () =
+    _ParseSuccess "1.2."
+      { _emptySemVer with
+          Major = 1
+          Minor = 2
+      }
+  [<Test>]
+  let ``Parse 1.2.-pre`` () =
+    _ParseSuccess "1.2.-pre"
+      { _emptySemVer with
+          Major = 1
+          Minor = 2
+          Pre   = Some "pre"
+      }
+  [<Test>]
+  let ``Parse 1.2.+meta`` () =
+    _ParseSuccess "1.2.+meta"
+      { _emptySemVer with
+          Major = 1
+          Minor = 2
+          Meta  = Some "meta"
+      }
+  [<Test>]
+  let ``Parse 1.2.-pre+meta`` () =
+    _ParseSuccess "1.2.-pre+meta"
+      { _emptySemVer with
+          Major = 1
+          Minor = 2
+          Pre   = Some "pre"
+          Meta  = Some "meta"
+      }
+
+
+  [<Test>]
+  let ``Parse 1.2.3`` () =
+    _ParseSuccess "1.2.3"
+      { _emptySemVer with
+          Major = 1
+          Minor = 2
+          Patch = 3
+      }
+  [<Test>]
+  let ``Parse 1.2.3-pre`` () =
+    _ParseSuccess "1.2.3-pre"
+      { _emptySemVer with
+          Major = 1
+          Minor = 2
+          Patch = 3
+          Pre = Some "pre"
+      }
+  [<Test>]
+  let ``Parse 1.2.3+meta`` () =
+    _ParseSuccess "1.2.3+meta"
+      { _emptySemVer with
+          Major = 1
+          Minor = 2
+          Patch = 3
+          Meta  = Some "meta"
+      }
+
+  let _InvalidSemVerStrings =
+    [|
+      "1.2.3-pre1-pre2"
+      "1.2.3+meta1+meta2"
+      "1.2.3-pre+meta1+meta2"
+      "1.2.3-pre1-pre2+meta"
+      "1.2.3.-pre"
+      "1.2.3.+meta"
+      "1.2.3.-pre+meta"
+      "1.2.3.4"
+      "1.2.3.4-pre"
+      "1.2.3.4+meta"
+      "1.2.3.4-pre+meta"
+    |]
+
+  [<Test>]
+  [<TestCaseSource("_InvalidSemVerStrings")>]
+  let ``parse throws an exception for badly formatted input`` input =
+    (fun () -> parse input |> ignore)
+    |> should throw typeof<System.FormatException>
+
+  [<Test>]
+  [<TestCaseSource("_InvalidSemVerStrings")>]
+  let ``tryParse returns None for badly formatted input`` input =
+    tryParse input |> should equal None

@@ -29,18 +29,22 @@ module SemVer =
 
     String.concat "" [| baseStr ; pre ; meta |]
 
+  let private _ParseFail str =
+    let message = sprintf "Invalid semantic version string: %s" str
+    raise (new System.FormatException(message))
+
   (* The following might be better done as regexes *)
   let private _headAndMeta (str: string) =
     match str.Split [| '+' |] with
     | [| head; meta |] -> head, Some(meta)
     | [| head; |]      -> head, None
-    | _                -> raise (new System.ArgumentException())
+    | _                -> _ParseFail str
 
   let private _versionPreAndMeta (head: string, meta: string option) =
     match head.Split [| '-' |] with
     | [| ver; pre |] -> ver, Some(pre), meta
     | [| ver |]      -> ver, None,      meta
-    | _              -> raise (new System.ArgumentException())
+    | _              -> _ParseFail head
 
   let private _majorMinorPatch (str: string) =
     let toInt i =
@@ -56,7 +60,7 @@ module SemVer =
     | [| maj; min; pat |] -> (maj, min, pat)
     | [| maj; min; |]     -> (maj, min, 0)
     | [| maj |]           -> (maj, 0,   0)
-    | _                   -> raise (new System.ArgumentException())
+    | _                   -> _ParseFail str
 
   let private _splitParts (str: string) =
     if str = null then raise (new System.ArgumentNullException())
@@ -100,3 +104,9 @@ module SemVer =
       Pre = pre
       Meta = meta
     }
+
+  let tryParse str =
+    try
+      Some (parse str)
+    with
+    | _ -> None
