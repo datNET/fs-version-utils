@@ -47,6 +47,7 @@
       <Link>AssemblyInfo.fs</Link>
     </Compile>
     <Compile Include="versions.fs" />
+    <Compile Include="semVer.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">12</MinimumVisualStudioVersion>
