@@ -5,8 +5,8 @@ module Version =
     open System
 
     let private _Coerce n = Math.Max(0, n)
-    let private _Incr n = n + 1
-    let private _Decr n = n - 1
+    let private _Incr = (+) 1
+    let private _Decr = (-) 1
 
     type VersionType =
       | Major
