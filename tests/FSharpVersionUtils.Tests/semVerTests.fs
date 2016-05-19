@@ -198,6 +198,7 @@ module SemVerTests =
       "1.2.3+meta1+meta2"
       "1.2.3-pre+meta1+meta2"
       "1.2.3-pre1-pre2+meta"
+      "1.2.3-pre1-pre2+meta1+meta2"
       "1.2.3.-pre"
       "1.2.3.+meta"
       "1.2.3.-pre+meta"
