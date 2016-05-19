@@ -5,8 +5,6 @@ module Version =
     open System
 
     let private _Coerce n = Math.Max(0, n)
-    let private _Incr n = n + 1
-    let private _Decr n = n - 1
 
     type VersionType =
       | Major
@@ -69,11 +67,10 @@ module Version =
 
       (BuildSemVer current.Major current.Minor newPatch).ToString()
 
+    let IncrMajor = ApplyMajor (+)
+    let IncrMinor = ApplyMinor (+)
+    let IncrPatch = ApplyPatch (+)
 
-    let IncrMajor = ApplyMajor _Incr
-    let IncrMinor = ApplyMinor _Incr
-    let IncrPatch = ApplyPatch _Incr
-
-    let DecrMajor = ApplyMajor _Decr
-    let DecrMinor = ApplyMinor _Decr
-    let DecrPatch = ApplyPatch _Decr
+    let DecrMajor = ApplyMajor (-)
+    let DecrMinor = ApplyMinor (-)
+    let DecrPatch = ApplyPatch (-)
