@@ -1,1 +1,1 @@
-# fs-version-utils [![Build status](https://ci.appveyor.com/api/projects/status/hoxiswl0ek24lgg3?svg=true)](https://ci.appveyor.com/project/awseward/fs-version-utils) [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
+# fs-version-utils [![Build status](https://ci.appveyor.com/api/projects/status/hoxiswl0ek24lgg3/branch/master?svg=true)](https://ci.appveyor.com/project/datNET/fs-version-utils/branch/master) [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
