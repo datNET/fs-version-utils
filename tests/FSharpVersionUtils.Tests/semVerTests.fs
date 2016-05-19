@@ -16,6 +16,24 @@ module SemVerTests =
       Meta  = None
     }
 
+  (*
+    Was hoping something like this would work, and the internet seems to think
+    it does, but I haven't been able to get it to work so far.
+
+    NUnit just keeps saying "Wrong number of arguments provided". Think it might
+    be a bug in the version we're using.
+  *)
+  //let _ValidSemVers =
+  //  [|
+  //    [| "1", { _emptySemVer with Major = 1 } |]
+  //    [| "1.", { _emptySemVer with Major = 1 } |]
+  //  |]
+  //
+  //[<Test>]
+  //[<TestCaseSource("_ValidSemVers")>]
+  //let ``parse handles correctly-formatted input`` (input, semVer) =
+  //  parse input |> should equal semVer
+
   let private _ParseSuccess input semver = parse input |> should equal semver
 
   [<Test>]
@@ -170,6 +188,12 @@ module SemVerTests =
 
   let _InvalidSemVerStrings =
     [|
+      (* TODO: Fix these cases *)
+      // null
+      // ""
+      // "."
+      // "garbage"
+      "..."
       "1.2.3-pre1-pre2"
       "1.2.3+meta1+meta2"
       "1.2.3-pre+meta1+meta2"
