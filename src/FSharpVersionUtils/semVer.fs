@@ -125,3 +125,29 @@ module SemVer =
       | None   -> 0
 
     (new System.Version(major, minor, patch, rev))
+
+  let mapMajor fn semVer =
+    { semVer with Major = fn(semVer.Major) }
+
+  let mapMinor fn semVer =
+    { semVer with Minor = fn(semVer.Minor) }
+
+  let mapPatch fn semVer =
+    { semVer with Patch = fn(semVer.Patch) }
+
+  let mapPre fn semVer =
+    { semVer with Pre = fn(semVer.Pre) }
+
+  let mapMeta fn semVer =
+    { semVer with Meta = fn(semVer.Meta) }
+
+  let _Incr = (+) 1
+  let _Decr = (-) 1
+
+  let IncrMajor = mapMajor _Incr
+  let IncrMinor = mapMinor _Incr
+  let IncrPatch = mapPatch _Incr
+
+  let DecrMajor = mapMajor _Decr
+  let DecrMinor = mapMajor _Decr
+  let DecrPatch = mapMajor _Decr

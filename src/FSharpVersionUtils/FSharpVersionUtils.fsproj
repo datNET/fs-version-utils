@@ -46,8 +46,8 @@
     <Compile Include="..\..\AssemblyInfo.fs">
       <Link>AssemblyInfo.fs</Link>
     </Compile>
-    <Compile Include="versions.fs" />
     <Compile Include="semVer.fs" />
+    <Compile Include="versions.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">12</MinimumVisualStudioVersion>

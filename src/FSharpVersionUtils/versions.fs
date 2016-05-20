@@ -3,10 +3,9 @@ namespace datNET
 module Version =
 
     open System
+    open SemVer
 
     let private _Coerce n = Math.Max(0, n)
-    let private _Incr = (+) 1
-    let private _Decr = (-) 1
 
     type VersionType =
       | Major
@@ -51,29 +50,25 @@ module Version =
         _Coerce minor,
         _Coerce patch)
 
-    let ApplyMajor fn versionString =
-      let current = Version.Parse(versionString)
-      let newMajor = fn (_Coerce current.Major)
+    let private _Map fn versionString =
+      versionString
+      |> SemVer.parse
+      |> fn
+      |> SemVer.stringify
 
-      (BuildSemVer newMajor 0 0).ToString()
+    let ApplyMajor fn versionString =
+      _Map (SemVer.mapMajor fn) versionString
 
     let ApplyMinor fn versionString =
-      let current = Version.Parse(versionString)
-      let newMinor = fn (_Coerce current.Minor)
-
-      (BuildSemVer current.Major newMinor 0).ToString()
+      _Map (SemVer.mapMinor fn) versionString
 
     let ApplyPatch fn versionString =
-      let current = Version.Parse(versionString)
-      let newPatch = fn (_Coerce current.Build)
+      _Map (SemVer.mapPatch fn) versionString
 
-      (BuildSemVer current.Major current.Minor newPatch).ToString()
+    let IncrMajor = _Map SemVer.IncrMajor
+    let IncrMinor = _Map SemVer.IncrMinor
+    let IncrPatch = _Map SemVer.IncrPatch
 
-
-    let IncrMajor = ApplyMajor _Incr
-    let IncrMinor = ApplyMinor _Incr
-    let IncrPatch = ApplyPatch _Incr
-
-    let DecrMajor = ApplyMajor _Decr
-    let DecrMinor = ApplyMinor _Decr
-    let DecrPatch = ApplyPatch _Decr
+    let DecrMajor = _Map SemVer.DecrMajor
+    let DecrMinor = _Map SemVer.DecrMinor
+    let DecrPatch = _Map SemVer.DecrPatch
