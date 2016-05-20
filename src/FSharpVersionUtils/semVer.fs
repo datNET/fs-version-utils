@@ -29,7 +29,7 @@ module SemVer =
 
     String.concat "" [| baseStr ; pre ; meta |]
 
-  let private _ParseFail str =
+  let private _parseFail str =
     let message = sprintf "Invalid semantic version string: %s" str
     raise (new System.FormatException(message))
 
@@ -38,13 +38,13 @@ module SemVer =
     match str.Split [| '+' |] with
     | [| head; meta |] -> head, Some(meta)
     | [| head; |]      -> head, None
-    | _                -> _ParseFail str
+    | _                -> _parseFail str
 
   let private _versionPreAndMeta (head: string, meta: string option) =
     match head.Split [| '-' |] with
     | [| ver; pre |] -> ver, Some(pre), meta
     | [| ver |]      -> ver, None,      meta
-    | _              -> _ParseFail head
+    | _              -> _parseFail head
 
   let private _majorMinorPatch (str: string) =
     let toInt i =
@@ -61,7 +61,7 @@ module SemVer =
     | [| maj; min; pat |]   -> (maj, min, pat)
     | [| maj; min; |]       -> (maj, min, 0)
     | [| maj |]             -> (maj, 0,   0)
-    | _                     -> _ParseFail str
+    | _                     -> _parseFail str
 
   let private _splitParts (str: string) =
     if str = null then raise (new System.ArgumentNullException())
@@ -148,13 +148,13 @@ module SemVer =
   let mapMeta fn semVer =
     { semVer with Meta = fn(semVer.Meta) }
 
-  let _Incr = (+) 1
-  let _Decr = (-) 1
+  let private _incr = (+) 1
+  let private _decr = (-) 1
 
-  let IncrMajor = mapMajor _Incr
-  let IncrMinor = mapMinor _Incr
-  let IncrPatch = mapPatch _Incr
+  let incrMajor = mapMajor _incr
+  let incrMinor = mapMinor _incr
+  let incrPatch = mapPatch _incr
 
-  let DecrMajor = mapMajor _Decr
-  let DecrMinor = mapMajor _Decr
-  let DecrPatch = mapMajor _Decr
+  let decrMajor = mapMajor _decr
+  let decrMinor = mapMajor _decr
+  let decrPatch = mapMajor _decr

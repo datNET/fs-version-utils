@@ -50,25 +50,25 @@ module Version =
         _Coerce minor,
         _Coerce patch)
 
-    let private _Map fn versionString =
+    let private _map fn versionString =
       versionString
       |> SemVer.parse
       |> fn
       |> SemVer.stringify
 
     let ApplyMajor fn versionString =
-      _Map (SemVer.mapMajor fn) versionString
+      _map (SemVer.mapMajor fn) versionString
 
     let ApplyMinor fn versionString =
-      _Map (SemVer.mapMinor fn) versionString
+      _map (SemVer.mapMinor fn) versionString
 
     let ApplyPatch fn versionString =
-      _Map (SemVer.mapPatch fn) versionString
+      _map (SemVer.mapPatch fn) versionString
 
-    let IncrMajor = _Map SemVer.IncrMajor
-    let IncrMinor = _Map SemVer.IncrMinor
-    let IncrPatch = _Map SemVer.IncrPatch
+    let IncrMajor = _map SemVer.incrMajor
+    let IncrMinor = _map SemVer.incrMinor
+    let IncrPatch = _map SemVer.incrPatch
 
-    let DecrMajor = _Map SemVer.DecrMajor
-    let DecrMinor = _Map SemVer.DecrMinor
-    let DecrPatch = _Map SemVer.DecrPatch
+    let DecrMajor = _map SemVer.decrMajor
+    let DecrMinor = _map SemVer.decrMinor
+    let DecrPatch = _map SemVer.decrPatch
