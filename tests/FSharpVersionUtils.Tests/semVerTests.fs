@@ -186,6 +186,15 @@ module SemVerTests =
           Meta  = Some "meta"
       }
 
+  [<Test>]
+  let ``parse 1.2.3.4`` () =
+    _ParseSuccess "1.2.3.4"
+      { _emptySemVer with
+          Major = 1
+          Minor = 2
+          Patch = 3
+      }
+
   let _InvalidSemVerStrings =
     [|
       (* TODO: Fix these cases *)
@@ -194,19 +203,13 @@ module SemVerTests =
       // "."
       // "garbage"
       // "1.2.3+meta-pre"
-      "..."
+      // "..."
+      // "horse.dog.sheep"
       "1.2.3-pre1-pre2"
       "1.2.3+meta1+meta2"
       "1.2.3-pre+meta1+meta2"
       "1.2.3-pre1-pre2+meta"
       "1.2.3-pre1-pre2+meta1+meta2"
-      "1.2.3.-pre"
-      "1.2.3.+meta"
-      "1.2.3.-pre+meta"
-      "1.2.3.4"
-      "1.2.3.4-pre"
-      "1.2.3.4+meta"
-      "1.2.3.4-pre+meta"
     |]
 
   [<Test>]
@@ -219,3 +222,21 @@ module SemVerTests =
   [<TestCaseSource("_InvalidSemVerStrings")>]
   let ``tryParse returns None for badly formatted input`` input =
     tryParse input |> should equal None
+
+  [<Test>]
+  let ``toSystemVersion can accept a revision`` () =
+    let major = 1
+    let minor = 2
+    let patch = 3
+    let revision = 4
+    let semVer =
+      { _emptySemVer with
+          Major = major
+          Minor = minor
+          Patch = patch
+      }
+    let sysVer = new System.Version(major, minor, patch, revision)
+
+    semVer
+    |> toSystemVersion (Some revision)
+    |> should equal sysVer

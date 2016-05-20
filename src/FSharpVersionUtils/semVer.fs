@@ -57,10 +57,11 @@ module SemVer =
       |> Array.map toInt
 
     match split with
-    | [| maj; min; pat |] -> (maj, min, pat)
-    | [| maj; min; |]     -> (maj, min, 0)
-    | [| maj |]           -> (maj, 0,   0)
-    | _                   -> _ParseFail str
+    | [| maj; min; pat; _|] -> (maj, min, pat)
+    | [| maj; min; pat |]   -> (maj, min, pat)
+    | [| maj; min; |]       -> (maj, min, 0)
+    | [| maj |]             -> (maj, 0,   0)
+    | _                     -> _ParseFail str
 
   let private _splitParts (str: string) =
     if str = null then raise (new System.ArgumentNullException())
@@ -110,3 +111,17 @@ module SemVer =
       Some (parse str)
     with
     | _ -> None
+
+  let toSystemVersion revision semVer =
+    let
+      {
+        Major = major
+        Minor = minor
+        Patch = patch
+      } = semVer
+    let rev =
+      match revision with
+      | Some n -> n
+      | None   -> 0
+
+    (new System.Version(major, minor, patch, rev))
