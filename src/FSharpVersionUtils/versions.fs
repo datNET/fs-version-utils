@@ -1,5 +1,6 @@
 namespace datNET
 
+[<System.ObsoleteAttribute("Prefer datNET.SemVer module")>]
 module Version =
 
     open System
