@@ -14,7 +14,7 @@ module SemVer =
   let stringify semVer =
     let baseStr =
       [| semVer.Major ; semVer.Minor ; semVer.Patch |]
-      |> Seq.map (fun i -> i.ToString())
+      |> Seq.map (sprintf "%i")
       |> String.concat "."
 
     let pre =
