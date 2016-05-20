@@ -127,10 +127,17 @@ module SemVer =
     (new System.Version(major, minor, patch, rev))
 
   let mapMajor fn semVer =
-    { semVer with Major = fn(semVer.Major) }
+    { semVer with
+        Major = fn(semVer.Major)
+        Minor = 0
+        Patch = 0
+    }
 
   let mapMinor fn semVer =
-    { semVer with Minor = fn(semVer.Minor) }
+    { semVer with
+        Minor = fn(semVer.Minor)
+        Patch = 0
+    }
 
   let mapPatch fn semVer =
     { semVer with Patch = fn(semVer.Patch) }
